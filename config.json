@@ -1,0 +1,9 @@
+{
+    "UserConfig": {
+        "Username": "",
+        "UberFee": 30,
+        "FuelTankCapacity": 50,
+        "TotalMileageFullTank": 450,
+        "FuelPricePerLiter": 104.90
+    }
+}
