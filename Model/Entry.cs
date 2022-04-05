@@ -10,11 +10,11 @@ namespace RecUber.Model
 
         public DateTime Date { get; set; }
         public string Details { get; set; } = string.Empty;
-        public TimeSpan Duration { get; set; }
+        public double Duration { get; set; }
         public float Distance { get; set; }
         public decimal TotalValue { get; set; }
 
-        public Entry(DateTime date, string details, TimeSpan duration, float distance, decimal totalValue)
+        public Entry(DateTime date, string details, double duration, float distance, decimal totalValue)
         {
             Date = date;
             Details = details;

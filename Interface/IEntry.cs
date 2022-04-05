@@ -4,7 +4,7 @@ namespace RecUber.Interface
 {
     public interface IEntry : IRecord
     {
-        TimeSpan Duration { get; set; }
+        double Duration { get; set; }
         float Distance { get; set; }
     }
 }

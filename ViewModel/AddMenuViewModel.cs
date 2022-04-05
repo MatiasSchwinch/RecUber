@@ -126,7 +126,7 @@ namespace RecUber.ViewModel
 
         public bool VerifyData()
         {
-            if (string.IsNullOrWhiteSpace(Desc)) return false;
+            //if (string.IsNullOrWhiteSpace(Desc)) return false;
             if (DistanceTotal <= 0 && Mode == InsertMode.Entry) return false;
             if (TotalValue <= 0) return false;
 
@@ -139,7 +139,7 @@ namespace RecUber.ViewModel
             switch (Mode)
             {
                 case InsertMode.Entry:
-                    record = new Entry(currentDate, Desc, FinalizeTime - InitTime, (float)DistanceTotal, (decimal)TotalValue);
+                    record = new Entry(currentDate, Desc, FinalizeTime.Subtract(InitTime).TotalHours, (float)DistanceTotal, (decimal)TotalValue);
                     await _repositoryEntry!.Insert((Entry)record);
                     await _repositoryEntry.Save();
                     _currentListToAdd.Add(record);
@@ -153,7 +153,7 @@ namespace RecUber.ViewModel
                 default:
                     throw new Exception("Error al insertar datos");
             }
-
+            
             return record;
         }
 
@@ -171,8 +171,6 @@ namespace RecUber.ViewModel
             finally
             {
                 IsOpenAddMenu = false;
-                
-                
             }
             
         }, () => VerifyData());

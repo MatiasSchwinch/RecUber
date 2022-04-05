@@ -81,29 +81,21 @@ namespace RecUber.ViewModel
             UpdateTotalTrips(filteredEntry.Count());
             
             // Horas totales on-line.
-            UpdateTotalHours(filteredEntry.Sum(entry => entry.Duration.TotalHours));
+            UpdateTotalHours(filteredEntry.Sum(entry => entry.Duration));
 
             // Distancia total recorrida.
-            UpdateTotalDistance(filteredEntry.Sum(entry => entry.Distance));
+            var totalDistance = filteredEntry.Sum(entry => entry.Distance);
+            UpdateTotalDistance(totalDistance);
 
             // Litros restantes estimados.
-            UpdateRemainingFuel(EstimateRemainingFuel(filteredEgress.Sum(egress => egress.TotalValue)));
+            var remaining = EstimateRemainingMileageAndFuel(EstimateRemainingFuel(filteredEgress.Sum(egress => egress.TotalValue)), totalDistance);
+            UpdateRemainingFuel(remaining.fuel);
 
             // Kilometraje restante estimado.
-            UpdateRemainingMileage(EstimateRemainingMileage());
+            UpdateRemainingMileage(remaining.mileage);
 
             // Balance total.
             UpdateTotalBalance(list.Sum(entry => entry.TotalValue));
-        }
-
-        // Estima el kilometraje restante.
-        private float EstimateRemainingMileage()
-        {
-            var totalMileageFullTank = _config.TotalMileageFullTank;
-            var fuelTankCapacity = _config.FuelTankCapacity;
-            var remainingLitersFuel = RemainingFuel;
-
-            return (totalMileageFullTank / fuelTankCapacity) * remainingLitersFuel;
         }
 
         // Estima el combustible restante.
@@ -113,6 +105,19 @@ namespace RecUber.ViewModel
             var literCharged = Math.Abs(amount) / fuelPricePerLiter;
 
             return (float)literCharged;
+        }
+
+        // Estima el kilometraje y el combustible restante.
+        private (float fuel, float mileage) EstimateRemainingMileageAndFuel(float liters, float totalDistance)
+        {
+            var totalMileageFullTank = _config.TotalMileageFullTank;
+            var fuelTankCapacity = _config.FuelTankCapacity;
+
+            var remainingMileage = ((totalMileageFullTank / fuelTankCapacity) * liters) - totalDistance;
+
+            var remainingFuel = remainingMileage / (totalMileageFullTank / fuelTankCapacity);
+
+            return (remainingFuel, remainingMileage);
         }
     }
 }

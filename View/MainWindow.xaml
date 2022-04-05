@@ -109,7 +109,7 @@
                     <GridView>
                         <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding Type}" Width="100"/>
                         <GridViewColumn Header="Detalles" DisplayMemberBinding="{Binding Details}"/>
-                        <GridViewColumn Header="Duración" DisplayMemberBinding="{Binding Duration}" Width="90"/>
+                        <GridViewColumn Header="Duración" DisplayMemberBinding="{Binding Duration, StringFormat='0.00 Hs'}" Width="90"/>
                         <GridViewColumn Header="Distancia recorrida" DisplayMemberBinding="{Binding Distance, StringFormat='0.00 Km'}" Width="140"/>
                         <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="140"/>
                     </GridView>
