@@ -74,7 +74,7 @@ namespace RecUber.ViewModel
 
         public void UpdateData(IEnumerable<IRecord> list)
         {
-            if (list is null || !list.Any()) return;
+            if (list is null || !list.Any()) { Clear(); return; }
 
             var filteredEntry = list.OfType<IEntry>();
             var filteredEgress = list.OfType<IEgress>();
@@ -98,6 +98,17 @@ namespace RecUber.ViewModel
 
             // Balance total.
             UpdateTotalBalance(list.Sum(entry => entry.TotalValue));
+        }
+
+        // Limpia todos los valores
+        public void Clear()
+        {
+            UpdateTotalTrips(0);
+            UpdateTotalHours(0d);
+            UpdateTotalDistance(0f);
+            UpdateRemainingFuel(0f);
+            UpdateRemainingMileage(0f);
+            UpdateTotalBalance(0m);
         }
 
         // Estima el combustible restante.

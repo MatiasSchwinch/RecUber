@@ -10,7 +10,7 @@ namespace RecUber.Model
 
         public DateTime Date { get; set; }
         public string Details { get; set; } = string.Empty;
-        public decimal TotalValue { get => _temporalValueStore; set => _temporalValueStore = value * (-1); }
+        public decimal TotalValue { get => _temporalValueStore; set => _temporalValueStore = Math.Abs(value) == value ? value * (-1) : value; }
 
         private decimal _temporalValueStore;
 

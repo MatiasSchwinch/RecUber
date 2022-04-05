@@ -68,6 +68,7 @@ namespace RecUber.ViewModel
             {
                 _currentRecord = value;
                 NotifyPropertyChanged();
+                DeleteRecord.NotifyCanExecuteChanged();
             }
         }
 
@@ -129,44 +130,57 @@ namespace RecUber.ViewModel
             AddMenu = null!;
         });
 
-        private ICommand? _deleteRecord;
-        public ICommand DeleteRecord => _deleteRecord ??= new RelayCommand(() =>
+        private IAsyncRelayCommand? _deleteRecord;
+        public IAsyncRelayCommand DeleteRecord => _deleteRecord ??= new AsyncRelayCommand(async () =>
         {
-            try
+            if (MessageBox.Show("¿Esta seguro que desea eliminar este registro de la base de datos?", "¿Estas seguro?", MessageBoxButton.YesNo, MessageBoxImage.Question) is MessageBoxResult.Yes)
             {
-                switch (CurrentRecord)
+                try
                 {
-                    case Entry entry:
-                        _repositoryEntries.Delete(entry.EntryId);
-                        _repositoryEntries.Save();
-                        RecordCollection.Remove(entry);
-                        break;
-                    case Egress egress:
-                        _repositoryEgress.Delete(egress.EgressId);
-                        _repositoryEgress.Save();
-                        RecordCollection.Remove(egress);
-                        break;
-                    default:
-                        break;
+                    switch (CurrentRecord)
+                    {
+                        case Entry entry:
+                            await _repositoryEntries.Delete(entry.EntryId);
+                            await _repositoryEntries.Save();
+                            RecordCollection.Remove(entry);
+                            break;
+                        case Egress egress:
+                            await _repositoryEgress.Delete(egress.EgressId);
+                            await _repositoryEgress.Save();
+                            RecordCollection.Remove(egress);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "¡Error al intentar eliminar el registro!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "¡Error al intentar eliminar el registro!", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+        }, () =>
+        {
+            return CurrentRecord != null;
         });
 
         private async Task LoadDbRecords()
         {
-            RecordCollection.Clear();
-
-            List<IRecord> list = new();
-            list.AddRange(await _repositoryEntries.GetAll(obj => obj.Date.Day == SelectedDate.Day));
-            list.AddRange(await _repositoryEgress.GetAll(obj => obj.Date.Day == SelectedDate.Day));
-
-            foreach (var item in list)
+            try
             {
-                RecordCollection.Add(item);
+                RecordCollection.Clear();
+
+                List<IRecord> list = new();
+                list.AddRange(await _repositoryEntries.GetAll(obj => obj.Date.Day == SelectedDate.Day));
+                list.AddRange(await _repositoryEgress.GetAll(obj => obj.Date.Day == SelectedDate.Day));
+
+                foreach (var item in list)
+                {
+                    RecordCollection.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "¡Error al intentar obtener los registro!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

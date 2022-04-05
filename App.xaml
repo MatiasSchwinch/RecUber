@@ -9,9 +9,9 @@
                 <hc:ThemeResources UsingSystemTheme="True"/>
                 <hc:Theme/>
                 <hc:IntellisenseResources Source="/HandyControl;Component/DesignTime/DesignTimeResources.xaml" />
-                <!-- Other merged dictionaries here -->
+
+                <ResourceDictionary Source="/Resource/Icons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

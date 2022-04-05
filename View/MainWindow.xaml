@@ -6,6 +6,7 @@
            xmlns:hc="https://handyorg.github.io/handycontrol"
            xmlns:local="clr-namespace:RecUber"
            xmlns:viewmodel="clr-namespace:RecUber.ViewModel"
+           xmlns:model="clr-namespace:RecUber.Model"
            d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
            mc:Ignorable="d"
            ShowTitle="False"
@@ -107,7 +108,27 @@
             <ListView ItemsSource="{Binding RecordCollection}" SelectedItem="{Binding CurrentRecord}" Background="White">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Tipo" DisplayMemberBinding="{Binding Type}" Width="100"/>
+                        <GridViewColumn Header="Tipo" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Width="24">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Entry">
+                                                        <Setter Property="Source" Value="{DynamicResource AddTravel}"/>
+                                                    </DataTrigger>
+
+                                                    <DataTrigger Binding="{Binding Type}" Value="Egress">
+                                                        <Setter Property="Source" Value="{DynamicResource EgressFuel}"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Detalles" DisplayMemberBinding="{Binding Details}"/>
                         <GridViewColumn Header="Duración" DisplayMemberBinding="{Binding Duration, StringFormat='0.00 Hs'}" Width="90"/>
                         <GridViewColumn Header="Distancia recorrida" DisplayMemberBinding="{Binding Distance, StringFormat='0.00 Km'}" Width="140"/>
@@ -126,8 +147,16 @@
             <Popup IsOpen="{Binding IsOpenAddPopup}" AllowsTransparency="True" PlacementTarget="{Binding ElementName=BtnAdd}" HorizontalOffset="-164" VerticalOffset="4" StaysOpen="False">
                 <Border Background="White" BorderThickness="1" BorderBrush="LightGray" CornerRadius="6">
                     <StackPanel Orientation="Vertical" Margin="0,5">
-                        <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="entry" Header="Viaje"/>
-                        <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="egress" Header="Carga de combustible"/>
+                        <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="entry" Header="Viaje">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource AddTravel}" Stretch="Uniform"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="egress" Header="Carga de combustible">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource EgressFuel}" Stretch="Uniform"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
                     </StackPanel>
                 </Border>
             </Popup>

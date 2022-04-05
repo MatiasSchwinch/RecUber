@@ -1,0 +1,51 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <DrawingImage x:Key="AddTravel">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V138.04781 H138.04781 V0 H0 Z">
+                <DrawingGroup.Transform>
+                    <TranslateTransform X="131.1454" Y="0" />
+                </DrawingGroup.Transform>
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-33.920319,-19.326683">
+                    <GeometryDrawing Brush="#FF00A651">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry RadiusX="69.0239" RadiusY="69.0239" Center="102.9442,88.3506" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="11.5056" RadiusY="12.785" Rect="60.1494,75.5655,85.5896,25.5701" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <DrawingGroup Transform="6.12303176911189E-17,-1,1,6.12303176911189E-17,0,0">
+                        <GeometryDrawing Brush="#FFFFFFFF">
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry RadiusX="11.5056" RadiusY="12.785" Rect="-131.1454,90.1592,85.5896,25.5701" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="EgressFuel">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 V138.04781 H138.04781 V0 H0 Z">
+                <DrawingGroup Opacity="1" Transform="1,0,0,1,-33.920319,-19.326683">
+                    <GeometryDrawing Brush="#FFE70011">
+                        <GeometryDrawing.Geometry>
+                            <EllipseGeometry RadiusX="69.0239" RadiusY="69.0239" Center="102.9442,88.3506" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                    <GeometryDrawing Brush="#FFFFFFFF">
+                        <GeometryDrawing.Geometry>
+                            <RectangleGeometry RadiusX="11.5056" RadiusY="12.785" Rect="60.1494,75.5655,85.5896,25.5701" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+</ResourceDictionary>

@@ -126,7 +126,7 @@ namespace RecUber.ViewModel
 
         public bool VerifyData()
         {
-            //if (string.IsNullOrWhiteSpace(Desc)) return false;
+            if (string.IsNullOrWhiteSpace(Desc)) return false;
             if (DistanceTotal <= 0 && Mode == InsertMode.Entry) return false;
             if (TotalValue <= 0) return false;
 
