@@ -2,6 +2,7 @@
 using RecUber.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RecUber.Repository
@@ -17,9 +18,18 @@ namespace RecUber.Repository
             _dbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(Func<T, bool> predicate)
         {
-            return await _dbSet.ToListAsync();
+            if (predicate is null) throw new Exception("El predicado no puede ser nulo");
+
+            IEnumerable<T> list = new List<T>();
+
+            await Task.Run(() =>
+            {
+                list = _dbSet.Where(predicate);
+            });
+
+            return list;
         }
 
         public async Task<T> GetById(int id)
@@ -30,12 +40,6 @@ namespace RecUber.Repository
         public async Task Insert(T entity)
         {
             await _dbSet.AddAsync(entity);
-        }
-        
-        public void Update(T entity)
-        {
-            //_dbSet.Attach(entity);
-            _context.Entry(entity).State = EntityState.Modified;
         }
 
         public async Task Delete(int id)

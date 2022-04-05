@@ -6,11 +6,10 @@ namespace RecUber.Interface
 {
     public interface IRepository<T> : IDisposable
     {
-        Task<IEnumerable<T>> GetAll();
+        Task<IEnumerable<T>> GetAll(Func<T, bool> predicate);
         Task<T> GetById(int id);
         Task Insert(T entity);
         Task Delete(int id);
-        void Update(T entity);
         Task Save();
     }
 }

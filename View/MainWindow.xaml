@@ -114,6 +114,11 @@
                         <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="140"/>
                     </GridView>
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Command="{Binding DeleteRecord}" Header="Eliminar este registro"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
 
             <Button Name="BtnAdd" Content="Añadir" Command="{Binding OpenAddPopup}" HorizontalAlignment="Right" VerticalAlignment="Top" hc:IconElement.Geometry="{DynamicResource AddGeometry}" Style="{DynamicResource ButtonPrimary}" Margin="0,10,18,0"/>

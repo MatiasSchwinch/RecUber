@@ -8,7 +8,7 @@ namespace RecUber.Repository
         public DbSet<Entry>? Entries { get; set; }
         public DbSet<Egress>? Egresses { get; set; }
         
-        public DatabaseConnection(DbContextOptions options) : base(options) { Database.EnsureDeleted();  Database.EnsureCreated(); }
+        public DatabaseConnection(DbContextOptions options) : base(options) { Database.EnsureCreated(); }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

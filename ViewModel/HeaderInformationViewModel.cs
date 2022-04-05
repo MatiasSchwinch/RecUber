@@ -72,8 +72,10 @@ namespace RecUber.ViewModel
             NotifyPropertyChanged(nameof(TotalBalance));
         }
 
-        public void LoadInitialData(IEnumerable<IRecord> list)
+        public void UpdateData(IEnumerable<IRecord> list)
         {
+            if (list is null || !list.Any()) return;
+
             var filteredEntry = list.OfType<IEntry>();
             var filteredEgress = list.OfType<IEgress>();
 

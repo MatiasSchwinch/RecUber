@@ -3,31 +3,41 @@ using Microsoft.Toolkit.Mvvm.Input;
 using RecUber.Interface;
 using RecUber.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RecUber.ViewModel
 {
     public partial class MainViewModel : ViewModelBase
     {
-        private IRepository<Entry> _repository;
+        private IRepository<Entry> _repositoryEntries;
+        private IRepository<Egress> _repositoryEgress;
 
         public MainViewModel()
         {
             // Repositorio.
-            _repository = App.Current.Services!.GetService<IRepository<Entry>>()!;
+            _repositoryEntries = App.Current.Services!.GetService<IRepository<Entry>>()!;
+            _repositoryEgress = App.Current.Services!.GetService<IRepository<Egress>>()!;
 
             // Instanciar el objeto que contiene la información del Header de la Home.
             _header = App.Current.Services!.GetService<HeaderInformationViewModel>()!;
 
             // Cargar Registros del día actual.
             RecordCollection = new();
-            RecordCollection.CollectionChanged += RecordCollection_CollectionChanged;
+            RecordCollection!.CollectionChanged += RecordCollection_CollectionChanged;
+
+            Task.Run(async () =>
+            {
+                await LoadDbRecords();
+            }).Wait();
         }
 
         private void RecordCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            _header.LoadInitialData(RecordCollection);
+            _header.UpdateData(RecordCollection);
         }
 
         private HeaderInformationViewModel _header;
@@ -69,6 +79,11 @@ namespace RecUber.ViewModel
             {
                 _selectedDate = value;
                 NotifyPropertyChanged();
+
+                App.Current.Dispatcher.Invoke(async () =>
+                {
+                    await LoadDbRecords();
+                });
             }
         }
 
@@ -109,10 +124,51 @@ namespace RecUber.ViewModel
                     break;
             }
 
-            while (AddMenu.IsOpenAddMenu) { await System.Threading.Tasks.Task.Delay(10); }
+            while (AddMenu.IsOpenAddMenu) { await Task.Delay(10); }
 
             AddMenu = null!;
         });
+
+        private ICommand? _deleteRecord;
+        public ICommand DeleteRecord => _deleteRecord ??= new RelayCommand(() =>
+        {
+            try
+            {
+                switch (CurrentRecord)
+                {
+                    case Entry entry:
+                        _repositoryEntries.Delete(entry.EntryId);
+                        _repositoryEntries.Save();
+                        RecordCollection.Remove(entry);
+                        break;
+                    case Egress egress:
+                        _repositoryEgress.Delete(egress.EgressId);
+                        _repositoryEgress.Save();
+                        RecordCollection.Remove(egress);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "¡Error al intentar eliminar el registro!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        });
+
+        private async Task LoadDbRecords()
+        {
+            RecordCollection.Clear();
+
+            List<IRecord> list = new();
+            list.AddRange(await _repositoryEntries.GetAll(obj => obj.Date.Day == SelectedDate.Day));
+            list.AddRange(await _repositoryEgress.GetAll(obj => obj.Date.Day == SelectedDate.Day));
+
+            foreach (var item in list)
+            {
+                RecordCollection.Add(item);
+            }
+        }
 
         
     }
