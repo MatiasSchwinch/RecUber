@@ -6,5 +6,7 @@ namespace RecUber.Interface
     {
         double Duration { get; set; }
         float Distance { get; set; }
+        decimal Fee { get; set; }
+        decimal Profit { get; set; }
     }
 }

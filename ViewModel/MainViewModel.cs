@@ -132,10 +132,10 @@ namespace RecUber.ViewModel
             switch (mode)
             {
                 case "entry":
-                    AddMenu = new AddMenuViewModel(InsertMode.Entry, SelectedDate, RecordCollection);
+                    AddMenu = new AddMenuViewModel(InsertMode.Entry, SelectedDate, RecordCollection) { UberFee = ConfigMenu.UberFee };
                     break;
                 case "egress":
-                    AddMenu = new AddMenuViewModel(InsertMode.Egress, SelectedDate, RecordCollection) { DisableControl = false };
+                    AddMenu = new AddMenuViewModel(InsertMode.Egress, SelectedDate, RecordCollection) { DisableControl = true };
                     break;
                 default:
                     break;

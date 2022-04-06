@@ -20,7 +20,7 @@
         <Grid>
             <Button Name="CfgBtn" Command="{Binding OpenConfigMenu}" hc:IconElement.Geometry="{DynamicResource ConfigGeometry}" HorizontalAlignment="Left" Margin="14,4,0,0" ToolTip="Configuración" Style="{DynamicResource ButtonIconCircular}"/>
             <TextBlock Text="{Binding ConfigMenu.UserName, StringFormat='¡Bienvenido {0}!'}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,4,0,0"/>
-            <Border Background="Black" Height="29" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Border Background="{DynamicResource PrimaryBrush}" Height="29" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
                     <!--<Image Source="" Width="16" VerticalAlignment="Center" Margin="5,0,0,0"/>-->
                     <TextBlock VerticalAlignment="Center" Margin="6,0" FontSize="12" FontWeight="SemiBold">
@@ -122,7 +122,7 @@
             <ListView ItemsSource="{Binding RecordCollection}" SelectedItem="{Binding CurrentRecord}" Background="White">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Tipo" Width="100">
+                        <GridViewColumn Width="50">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Image Width="24">
@@ -146,7 +146,9 @@
                         <GridViewColumn Header="Detalles" DisplayMemberBinding="{Binding Details}"/>
                         <GridViewColumn Header="Duración" DisplayMemberBinding="{Binding Duration, StringFormat='0.00 Hs'}" Width="90"/>
                         <GridViewColumn Header="Distancia recorrida" DisplayMemberBinding="{Binding Distance, StringFormat='0.00 Km'}" Width="140"/>
-                        <GridViewColumn Header="Valor Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="140"/>
+                        <GridViewColumn Header="Ganancia" DisplayMemberBinding="{Binding Profit}"/>
+                        <GridViewColumn Header="Comisión" DisplayMemberBinding="{Binding Fee}"/>
+                        <GridViewColumn Header="Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="140"/>
                     </GridView>
                 </ListView.View>
                 <ListView.ContextMenu>
@@ -197,11 +199,11 @@
 
                         <StackPanel Orientation="Vertical" Margin="0,0,20,0">
                             <hc:TextBox Text="{Binding Desc}" hc:InfoElement.Title="Detalles" AcceptsReturn="True" hc:InfoElement.Placeholder="Ingrese aqui un breve detalle del registro..." VerticalContentAlignment="Top" TextWrapping="Wrap" MaxLength="250" Height="100" Style="{DynamicResource TextBoxExtend}"/>
-                            <hc:TimePicker SelectedTime="{Binding InitTime}" hc:InfoElement.Title="Hora de inicio" Margin="0,10,0,0" IsEnabled="{Binding DisableControl}" Style="{DynamicResource TimePickerExtend}"/>
-                            <hc:TimePicker SelectedTime="{Binding FinalizeTime}" hc:InfoElement.Title="Hora de finalizacion" Margin="0,10,0,0" IsEnabled="{Binding DisableControl}" Style="{DynamicResource TimePickerExtend}"/>
-                            <hc:NumericUpDown Value="{Binding DistanceTotal}" DecimalPlaces="2" Minimum="0" hc:InfoElement.Title="Distancia recorrida" Margin="0,10,0,0" IsEnabled="{Binding DisableControl}" Style="{DynamicResource NumericUpDownExtend}"/>
-                            <hc:NumericUpDown Value="{Binding TotalValue}" DecimalPlaces="2" Minimum="0" hc:InfoElement.Title="Valor del viaje" Margin="0,10,0,0" Style="{DynamicResource NumericUpDownExtend}"/>
-                            <CheckBox IsChecked="{Binding ApplyFee}" Content="Descontar comisión de Uber." HorizontalAlignment="Left" Margin="0,20,0,0" Style="{DynamicResource ToggleButtonSwitch}"/>
+                            <hc:TimePicker SelectedTime="{Binding InitTime}" hc:InfoElement.Title="Hora de inicio" Margin="0,10,0,0" Visibility="{Binding CollapsedVisibility}" Style="{DynamicResource TimePickerExtend}"/>
+                            <hc:TimePicker SelectedTime="{Binding FinalizeTime}" hc:InfoElement.Title="Hora de finalizacion" Margin="0,10,0,0" Visibility="{Binding CollapsedVisibility}" Style="{DynamicResource TimePickerExtend}"/>
+                            <hc:NumericUpDown Value="{Binding DistanceTotal}" DecimalPlaces="2" Minimum="0" hc:InfoElement.Title="Distancia recorrida" Margin="0,10,0,0" Visibility="{Binding CollapsedVisibility}" Style="{DynamicResource NumericUpDownExtend}"/>
+                            <hc:NumericUpDown Value="{Binding TotalValue}" DecimalPlaces="2" Minimum="0" hc:InfoElement.Title="Valor" Margin="0,10,0,0" Style="{DynamicResource NumericUpDownExtend}"/>
+                            <CheckBox IsChecked="{Binding ApplyFee}" Content="Descontar comisión de Uber." HorizontalAlignment="Left" Margin="0,20,0,0" Visibility="{Binding CollapsedVisibility}" Style="{DynamicResource ToggleButtonSwitch}"/>
                         </StackPanel>
                     </StackPanel>
 

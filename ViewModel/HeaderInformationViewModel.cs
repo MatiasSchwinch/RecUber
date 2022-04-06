@@ -97,7 +97,7 @@ namespace RecUber.ViewModel
             UpdateRemainingMileage(remaining.mileage);
 
             // Balance total.
-            UpdateTotalBalance(list.Sum(entry => entry.TotalValue));
+            UpdateTotalBalance(filteredEntry.Sum(en => en.Profit) + filteredEgress.Sum(eg => eg.TotalValue)/*list.Sum(entry => entry.TotalValue)*/);
         }
 
         // Limpia todos los valores

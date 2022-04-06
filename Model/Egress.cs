@@ -10,15 +10,13 @@ namespace RecUber.Model
 
         public DateTime Date { get; set; }
         public string Details { get; set; } = string.Empty;
-        public decimal TotalValue { get => _temporalValueStore; set => _temporalValueStore = Math.Abs(value) == value ? value * (-1) : value; }
-
-        private decimal _temporalValueStore;
+        public decimal TotalValue { get; set; }
 
         public Egress(DateTime date, string details, decimal totalValue)
         {
             Date = date;
             Details = details;
-            TotalValue = totalValue;
+            TotalValue = Math.Abs(totalValue) == totalValue ? totalValue * (-1) : totalValue;
         }
     }
 }

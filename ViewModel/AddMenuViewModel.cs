@@ -3,7 +3,6 @@ using Microsoft.Toolkit.Mvvm.Input;
 using RecUber.Interface;
 using RecUber.Model;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -84,8 +83,8 @@ namespace RecUber.ViewModel
             }
         }
 
-        private bool? _applyFee = true;
-        public bool? ApplyFee
+        private bool _applyFee = true;
+        public bool ApplyFee
         {
             get => _applyFee;
             set
@@ -95,7 +94,27 @@ namespace RecUber.ViewModel
             }
         }
 
-        public bool DisableControl { get; set; } = true;
+        private bool _disableControl = false;
+        public bool DisableControl
+        {
+            get => _disableControl;
+            set
+            {
+                _disableControl = value;
+                if (value)
+                {
+                    CollapsedVisibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    CollapsedVisibility = Visibility.Visible;
+                }
+            }
+        }
+
+        public Visibility CollapsedVisibility { get; set; } = Visibility.Visible;
+
+        public float UberFee { get; set; } = 30f;
         #endregion
 
         private readonly IRepository<Entry>? _repositoryEntry;
@@ -139,7 +158,10 @@ namespace RecUber.ViewModel
             switch (Mode)
             {
                 case InsertMode.Entry:
-                    record = new Entry(currentDate, Desc, FinalizeTime.Subtract(InitTime).TotalHours, (float)DistanceTotal, (decimal)TotalValue);
+                    decimal totalFee = 0m;
+                    if (ApplyFee) totalFee = (decimal)TotalValue * ((decimal)UberFee / 100);
+
+                    record = new Entry(currentDate, Desc, FinalizeTime.Subtract(InitTime).TotalHours, (float)DistanceTotal, totalFee, (decimal)TotalValue - totalFee, (decimal)TotalValue);
                     await _repositoryEntry!.Insert((Entry)record);
                     await _repositoryEntry.Save();
                     _currentListToAdd.Add(record);
