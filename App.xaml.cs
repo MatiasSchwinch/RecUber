@@ -12,6 +12,7 @@ using RecUber.Interface;
 using RecUber.Repository;
 using Microsoft.EntityFrameworkCore;
 using RecUber.View;
+using System.IO;
 
 namespace RecUber
 {
@@ -20,9 +21,13 @@ namespace RecUber
         public new static App Current => (App)Application.Current;
         public IServiceProvider? Services { get; }
 
+        private const string DbName = "recuber.db";
+
         public App()
         {
             Services = ConfigureServices();
+
+            if (!File.Exists(DbName)) Services!.GetService<DatabaseConnection>()!.Database.Migrate();
         }
 
         private IServiceProvider? ConfigureServices()
@@ -36,7 +41,7 @@ namespace RecUber
                     .Build();
             });
 
-            services.AddDbContext<DatabaseConnection>(options => options.UseSqlite(connectionString: "Data Source=RecUber.db"));
+            services.AddDbContext<DatabaseConnection>(options => options.UseSqlite(connectionString: $"Data Source={DbName}"));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
