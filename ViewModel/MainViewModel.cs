@@ -25,6 +25,9 @@ namespace RecUber.ViewModel
             // Instanciar el objeto que contiene la información del Header de la Home.
             _header = App.Current.Services!.GetService<HeaderInformationViewModel>()!;
 
+            // Instanciar el objeto que contiene la información de la configuración del la home.
+            _configMenu = App.Current.Services!.GetService<ConfigurationViewModel>()!;
+
             // Cargar Registros del día actual.
             RecordCollection = new();
             RecordCollection!.CollectionChanged += RecordCollection_CollectionChanged;
@@ -38,6 +41,13 @@ namespace RecUber.ViewModel
         private void RecordCollection_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             _header.UpdateData(RecordCollection);
+        }
+
+        private ConfigurationViewModel _configMenu;
+        public ConfigurationViewModel ConfigMenu
+        {
+            get => _configMenu;
+            set => _configMenu = value;
         }
 
         private HeaderInformationViewModel _header;
@@ -108,6 +118,12 @@ namespace RecUber.ViewModel
             IsOpenAddPopup = !IsOpenAddPopup;
         });
 
+        private ICommand? openConfigMenu;
+        public ICommand OpenConfigMenu => openConfigMenu ??= new RelayCommand(() =>
+        {
+            ConfigMenu.IsOpen = !ConfigMenu.IsOpen;
+        });
+        
         private ICommand? _openAddMenu;
         public ICommand OpenAddMenu => _openAddMenu ??= new AsyncRelayCommand<string>(async (mode) =>
         {
@@ -184,7 +200,6 @@ namespace RecUber.ViewModel
             }
         }
 
-        
     }
     
     

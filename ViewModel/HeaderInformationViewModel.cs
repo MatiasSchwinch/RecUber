@@ -35,7 +35,7 @@ namespace RecUber.ViewModel
         public HeaderInformationViewModel(IConfiguration config)
         {
             _config = new();
-            config.Bind(Config.SectionName, _config);
+            config.Bind(_config);
         }
 
         public void UpdateTotalTrips(int value)

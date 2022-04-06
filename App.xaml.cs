@@ -42,6 +42,8 @@ namespace RecUber
 
             services.AddSingleton<HeaderInformationViewModel>();
 
+            services.AddScoped<ConfigurationViewModel>();
+
             return services.BuildServiceProvider();
         }
 

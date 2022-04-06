@@ -18,7 +18,8 @@
            Title="Recuber">
     <hc:Window.NonClientAreaContent>
         <Grid>
-            <Button hc:IconElement.Geometry="{DynamicResource ConfigGeometry}" HorizontalAlignment="Left" Margin="14,4,0,0" ToolTip="Configuración" Style="{DynamicResource ButtonIconCircular}"/>
+            <Button Name="CfgBtn" Command="{Binding OpenConfigMenu}" hc:IconElement.Geometry="{DynamicResource ConfigGeometry}" HorizontalAlignment="Left" Margin="14,4,0,0" ToolTip="Configuración" Style="{DynamicResource ButtonIconCircular}"/>
+            <TextBlock Text="{Binding ConfigMenu.UserName, StringFormat='¡Bienvenido {0}!'}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="50,4,0,0"/>
             <Border Background="Black" Height="29" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
                     <!--<Image Source="" Width="16" VerticalAlignment="Center" Margin="5,0,0,0"/>-->
@@ -27,6 +28,19 @@
                     </TextBlock>
                 </StackPanel>
             </Border>
+
+            <Popup IsOpen="{Binding ConfigMenu.IsOpen}" AllowsTransparency="True" PlacementTarget="{Binding ElementName=CfgBtn}" HorizontalOffset="0" VerticalOffset="4" StaysOpen="False">
+                <Border Background="White" BorderThickness="1" BorderBrush="LightGray" CornerRadius="6">
+                    <StackPanel Orientation="Vertical" Margin="10">
+                        <TextBox Text="{Binding ConfigMenu.UserName}" hc:InfoElement.Title="Nombre de usuario:" hc:InfoElement.Placeholder="Ingrese aqui su nombre de usuario:" Style="{DynamicResource TextBoxExtend}"/>
+                        <hc:NumericUpDown Value="{Binding ConfigMenu.FuelTankCapacity}" hc:InfoElement.Title="Capacidad del tanque de combustible:" Minimum="0" Style="{DynamicResource NumericUpDownExtend}"/>
+                        <hc:NumericUpDown Value="{Binding ConfigMenu.TotalMileageFullTank}" hc:InfoElement.Title="Kilometros totales que recorre con el tanque lleno:" Minimum="0" Style="{DynamicResource NumericUpDownExtend}"/>
+                        <hc:NumericUpDown Value="{Binding ConfigMenu.FuelPricePerLiter}" hc:InfoElement.Title="Precio del combustible:" Minimum="0" Style="{DynamicResource NumericUpDownExtend}"/>
+                        <hc:NumericUpDown Value="{Binding ConfigMenu.UberFee}" hc:InfoElement.Title="Comision de Uber:" Minimum="0" Maximum="100" Style="{DynamicResource NumericUpDownExtend}"/>
+                        <Button Command="{Binding ConfigMenu.Save}" Content="Guardar" HorizontalAlignment="Right" hc:IconElement.Geometry="{DynamicResource SaveGeometry}" Margin="0,10,0,0" Style="{DynamicResource ButtonSuccess}"/>
+                    </StackPanel>
+                </Border>
+            </Popup>
         </Grid>
     </hc:Window.NonClientAreaContent>
 
