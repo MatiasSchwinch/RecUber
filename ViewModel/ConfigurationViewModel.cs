@@ -26,6 +26,8 @@ namespace RecUber.ViewModel
             {
                 var serialized = JsonSerializer.Serialize(_cfgCurrent);
                 File.WriteAllText("config.json", serialized);
+
+                IsOpen = false;
             }
             catch (Exception ex)
             {

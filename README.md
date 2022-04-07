@@ -5,7 +5,7 @@ Lleva un registro de todos los viajes que realizas con Uber, y las cargas de com
 
 - Se utiliza SQLite como gestor de bases de datos, y Entity Framework 6 Core como ORM.
 
-![program](https://user-images.githubusercontent.com/93444165/162091920-e13d09ea-6958-4aab-8f11-6d0f0d409c71.png)
+![recuber](https://user-images.githubusercontent.com/93444165/162287657-c274129d-084e-4c4e-bbee-8badb88b58b3.gif)
 
 - .NET 6.0
 - Windows Presentation Foundation (WPF)
