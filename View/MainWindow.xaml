@@ -130,11 +130,11 @@
                                             <Style TargetType="{x:Type Image}">
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Type}" Value="Entry">
-                                                        <Setter Property="Source" Value="{DynamicResource AddTravel}"/>
+                                                        <Setter Property="Source" Value="{DynamicResource TravelIcon}"/>
                                                     </DataTrigger>
 
                                                     <DataTrigger Binding="{Binding Type}" Value="Egress">
-                                                        <Setter Property="Source" Value="{DynamicResource EgressFuel}"/>
+                                                        <Setter Property="Source" Value="{DynamicResource FuelIcon}"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -146,9 +146,9 @@
                         <GridViewColumn Header="Detalles" DisplayMemberBinding="{Binding Details}"/>
                         <GridViewColumn Header="Duración" DisplayMemberBinding="{Binding Duration, StringFormat='0.00 Hs'}" Width="90"/>
                         <GridViewColumn Header="Distancia recorrida" DisplayMemberBinding="{Binding Distance, StringFormat='0.00 Km'}" Width="140"/>
-                        <GridViewColumn Header="Ganancia" DisplayMemberBinding="{Binding Profit}"/>
-                        <GridViewColumn Header="Comisión" DisplayMemberBinding="{Binding Fee}"/>
-                        <GridViewColumn Header="Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="140"/>
+                        <GridViewColumn Header="Total" DisplayMemberBinding="{Binding TotalValue, StringFormat='$ 0.00'}" Width="120"/>
+                        <GridViewColumn Header="Comisión" DisplayMemberBinding="{Binding Fee, StringFormat='$ 0.00'}" Width="120"/>
+                        <GridViewColumn Header="Ganancia" DisplayMemberBinding="{Binding Profit, StringFormat='$ 0.00'}" Width="120"/>
                     </GridView>
                 </ListView.View>
                 <ListView.ContextMenu>
@@ -165,12 +165,12 @@
                     <StackPanel Orientation="Vertical" Margin="0,5">
                         <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="entry" Header="Viaje">
                             <MenuItem.Icon>
-                                <Image Source="{StaticResource AddTravel}" Stretch="Uniform"/>
+                                <Image Source="{StaticResource TravelIcon}" Stretch="Uniform"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <MenuItem Command="{Binding OpenAddMenu}" CommandParameter="egress" Header="Carga de combustible">
                             <MenuItem.Icon>
-                                <Image Source="{StaticResource EgressFuel}" Stretch="Uniform"/>
+                                <Image Source="{StaticResource FuelIcon}" Stretch="Uniform"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </StackPanel>

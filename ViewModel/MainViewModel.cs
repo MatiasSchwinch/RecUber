@@ -186,8 +186,8 @@ namespace RecUber.ViewModel
                 RecordCollection.Clear();
 
                 List<IRecord> list = new();
-                list.AddRange(await _repositoryEntries.GetAll(obj => obj.Date.Day == SelectedDate.Day));
-                list.AddRange(await _repositoryEgress.GetAll(obj => obj.Date.Day == SelectedDate.Day));
+                list.AddRange(await _repositoryEntries.GetByPredicate(obj => obj.Date.Date == SelectedDate.Date));
+                list.AddRange(await _repositoryEgress.GetByPredicate(obj => obj.Date.Date == SelectedDate.Date));
 
                 foreach (var item in list)
                 {

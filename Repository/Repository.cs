@@ -18,7 +18,7 @@ namespace RecUber.Repository
             _dbSet = context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll(Func<T, bool> predicate)
+        public async Task<IEnumerable<T>> GetByPredicate(Func<T, bool> predicate)
         {
             if (predicate is null) throw new Exception("El predicado no puede ser nulo");
 
